@@ -1139,7 +1139,7 @@ body{font-family:var(--font-sans);background:#f7f9f7;color:var(--text);overflow-
 
 <script>
 // ═══ STATE ═══
-const PASSWORDS=[]; // Passwörter serverseitig im Backend
+const PASSWORDS=[]; // serverseitig
 const TRACKING_WEBHOOK='https://script.google.com/macros/s/AKfycbxEqFQX_yfKaWcVW0rjomUgMIghlWvGFRH9tcMNdx0zyYdZQTrHJvx1RskAXAeVmr85/exec';
 function trackLogin(pw){fetch(TRACKING_WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({passwort:pw,zeitpunkt:new Date().toLocaleString('de-DE',{timeZone:'Europe/Berlin'}),geraet:/Mobi|Android/i.test(navigator.userAgent)?'Mobil':'Desktop',sprache:navigator.language})}).catch(()=>{});}
 let lang = 'de', profile = null;
@@ -1208,7 +1208,7 @@ function initHeroCanvas(){
 }
 
 // ═══ PASSWORD ═══
-function checkPassword(){} // Login läuft jetzt über Backend
+function checkPassword(){}
 document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPassword();});
 
 // ═══ PROFILE ═══
@@ -1599,11 +1599,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   <span data-de="Termin vereinbaren" data-en="Schedule a call">Termin vereinbaren</span>
 </a>
 
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  if(typeof initApp === 'function') initApp();
-});
-</script>
+<script>document.addEventListener('DOMContentLoaded',function(){if(typeof initApp==='function')initApp();});</script>
 </body>
 </html>
