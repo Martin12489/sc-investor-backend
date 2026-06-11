@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Care · Investor Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#1D9E75;--teal-light:#9FE1CB;--teal-dark:#0F6E56;--teal-pale:#E1F5EE;
+  --teal-deep:#04342C;--amber:#BA7517;--amber-pale:#FAEEDA;
+  --gray:#444441;--gray-light:#F1EFE8;--gray-mid:#888780;
+  --white:#fff;--text:#1a1a1a;--text-muted:#5a5a5a;--border:rgba(0,0,0,0.09);
+  --font-sans:'DM Sans',sans-serif;--font-serif:'DM Serif Display',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--font-sans);background:var(--teal-deep);min-height:100vh;}
+
+
+/* ═══════════════════════════════════
+   PASSWORD GATE
+═══════════════════════════════════ */
+#gate{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--teal-deep);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2rem;
+  overflow:hidden;
+}
+
+#gate-canvas{position:absolute;inset:0;opacity:0.6;}
+
+.gate-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:1.5rem;}
+
+.gate-logo-wrap{display:flex;align-items:center;gap:1rem;}
+
+.gate-logo-mark{
+  width:60px;height:60px;border-radius:16px;
+  background:linear-gradient(135deg,var(--teal),var(--teal-light));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:26px;color:white;
+  box-shadow:0 8px 32px rgba(29,158,117,0.4);
+}
+
+.gate-wordmark{font-family:var(--font-serif);font-size:2.4rem;color:white;letter-spacing:-0.02em;}
+
+.gate-tagline{
+  color:rgba(255,255,255,0.5);font-size:0.72rem;letter-spacing:0.14em;
+  text-transform:uppercase;text-align:center;
+}
+
+.gate-box{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:24px;padding:2.5rem;width:380px;max-width:92vw;
+  backdrop-filter:blur(20px);
+}
+
+.gate-box h2{font-family:var(--font-serif);color:white;font-size:1.5rem;margin-bottom:0.4rem;font-weight:400;}
+
+.gate-box p{color:rgba(255,255,255,0.5);font-size:0.83rem;margin-bottom:1.5rem;}
+
+.gate-input{
+  width:100%;padding:0.9rem 1.1rem;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);
+  border-radius:12px;color:white;font-size:1rem;font-family:var(--font-sans);
+  letter-spacing:0.12em;outline:none;transition:border-color 0.2s;
+}
+
+.gate-input::placeholder{color:rgba(255,255,255,0.28);letter-spacing:0;}
+
+.gate-input:focus{border-color:var(--teal-light);}
+
+.gate-btn{
+  width:100%;margin-top:1rem;padding:0.95rem;
+  background:var(--teal);border:none;border-radius:12px;
+  font-family:var(--font-sans);font-size:0.95rem;font-weight:600;color:white;
+  cursor:pointer;transition:all 0.2s;letter-spacing:0.01em;
+}
+
+.gate-btn:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 6px 20px rgba(29,158,117,0.4);}
+
+.gate-error{color:#F09595;font-size:0.8rem;margin-top:0.5rem;min-height:1.2em;}
+
+.gate-pulse{
+  position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(29,158,117,0.15) 0%,transparent 70%);
+  animation:pulse 4s ease-in-out infinite;
+}
+</style>
+</head>
+<body>
+<div id="gate">
+  <canvas id="gate-canvas"></canvas>
+  <div class="gate-pulse"></div>
+  <div class="gate-inner">
+    <div class="gate-logo-wrap">
+      <img src="/assets/logo.png" alt="Smart Care" style="height:52px;filter:brightness(0) invert(1);">
+    </div>
+    <div class="gate-tagline">Vertrauliches Investorenportal · Wachstumsfinanzierung 2026</div>
+    <div class="gate-box">
+      <h2>Zugang</h2>
+      <p>Ausschließlich für eingeladene Investoren.</p>
+      <input class="gate-input" type="password" id="pw-input" placeholder="Passwort …" autocomplete="off">
+      <div class="gate-error" id="pw-error"></div>
+      <button class="gate-btn" onclick="checkPassword()">Zugang bestätigen</button>
+    </div>
+  </div>
+</div>
+<script>
+async function checkPassword(){
+  const pw = document.getElementById('pw-input').value.trim();
+  const errEl = document.getElementById('pw-error');
+  errEl.textContent = '';
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ password: pw })
+    });
+    if (res.ok) {
+      window.location.href = '/';
+    } else {
+      errEl.textContent = 'Falsches Passwort.';
+      document.getElementById('pw-input').value = '';
+    }
+  } catch(e) {
+    errEl.textContent = 'Verbindungsfehler. Bitte erneut versuchen.';
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', e => {
+  if(e.key === 'Enter') checkPassword();
+});
+
+// Gate canvas particles
+(function(){
+  const c = document.getElementById('gate-canvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  let W,H,particles=[];
+  function resize(){ W=c.width=innerWidth; H=c.height=innerHeight; }
+  resize(); addEventListener('resize',resize);
+  for(let i=0;i<50;i++) particles.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*2+1});
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(159,225,203,0.4)'; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
