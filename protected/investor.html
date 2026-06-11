@@ -1599,6 +1599,29 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   <span data-de="Termin vereinbaren" data-en="Schedule a call">Termin vereinbaren</span>
 </a>
 
-<script>document.addEventListener('DOMContentLoaded',function(){if(typeof initApp==='function')initApp();});</script>
+<script>
+function _startApp(){
+  if(typeof initApp==='function'){
+    initApp();
+    // Charts robust nachladen sobald Chart.js da ist
+    var tries=0;
+    var chartTimer=setInterval(function(){
+      tries++;
+      if(typeof Chart!=='undefined'){
+        if(typeof renderGrowthChart==='function') renderGrowthChart();
+        clearInterval(chartTimer);
+      }
+      if(tries>40) clearInterval(chartTimer);
+    },200);
+  } else {
+    setTimeout(_startApp,100);
+  }
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',_startApp);
+}else{
+  _startApp();
+}
+</script>
 </body>
 </html>
