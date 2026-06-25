@@ -95,6 +95,7 @@ app.get('/investor.html', (req, res) => {
 });
 
 // ─── Statische Assets (Logo, Bilder, Video) – öffentlich, da kein Geheimnis ───
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/assets', express.static(path.join(__dirname, 'public', 'assets')));
 
 // ─── Logout ───
