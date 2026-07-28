@@ -6,14 +6,14 @@
 <title>Smart Care · Investor Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --teal:#1D9E75;--teal-light:#9FE1CB;--teal-dark:#0F6E56;--teal-pale:#E1F5EE;
-  --teal-deep:#04342C;--amber:#BA7517;--amber-pale:#FAEEDA;
-  --gray:#444441;--gray-light:#F1EFE8;--gray-mid:#888780;
-  --white:#fff;--text:#1a1a1a;--text-muted:#5a5a5a;--border:rgba(0,0,0,0.09);
-  --font-sans:'DM Sans',sans-serif;--font-serif:'DM Serif Display',serif;
+  --teal:#2F5B52;--teal-light:#D9B98A;--teal-dark:#1C3B36;--teal-pale:#EFEBE2;
+  --teal-deep:#14201C;--amber:#B8763E;--amber-pale:#F0DFC4;
+  --gray:#4A5650;--gray-light:#F1EDE4;--gray-mid:#7A8580;
+  --white:#fff;--text:#14201C;--text-muted:#5B6862;--border:rgba(0,0,0,0.09);
+  --font-sans:'Inter',system-ui,sans-serif;--font-serif:'Fraunces',Georgia,serif;--font-label:'Space Grotesk',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:var(--font-sans);background:var(--teal-deep);min-height:100vh;}
@@ -40,7 +40,7 @@ body{font-family:var(--font-sans);background:var(--teal-deep);min-height:100vh;}
   background:linear-gradient(135deg,var(--teal),var(--teal-light));
   display:flex;align-items:center;justify-content:center;
   font-family:var(--font-serif);font-size:26px;color:white;
-  box-shadow:0 8px 32px rgba(29,158,117,0.4);
+  box-shadow:0 8px 32px rgba(47,91,82,0.4);
 }
 
 .gate-wordmark{font-family:var(--font-serif);font-size:2.4rem;color:white;letter-spacing:-0.02em;}
@@ -79,13 +79,13 @@ body{font-family:var(--font-sans);background:var(--teal-deep);min-height:100vh;}
   cursor:pointer;transition:all 0.2s;letter-spacing:0.01em;
 }
 
-.gate-btn:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 6px 20px rgba(29,158,117,0.4);}
+.gate-btn:hover{background:var(--teal-dark);transform:translateY(-1px);box-shadow:0 6px 20px rgba(47,91,82,0.4);}
 
 .gate-error{color:#F09595;font-size:0.8rem;margin-top:0.5rem;min-height:1.2em;}
 
 .gate-pulse{
   position:absolute;width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle,rgba(29,158,117,0.15) 0%,transparent 70%);
+  background:radial-gradient(circle,rgba(47,91,82,0.15) 0%,transparent 70%);
   animation:pulse 4s ease-in-out infinite;
 }
 </style>
@@ -148,7 +148,7 @@ document.getElementById('pw-input').addEventListener('keydown', e => {
       p.x+=p.vx; p.y+=p.vy;
       if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
       ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(159,225,203,0.4)'; ctx.fill();
+      ctx.fillStyle='rgba(217,185,138,0.4)'; ctx.fill();
     });
     requestAnimationFrame(draw);
   }
